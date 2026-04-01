@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adriatic Solar Cleaning — Robotsko čišćenje solarnih panela</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sun: #F5A623;
+      --sky: #0A2A4A;
+      --sea: #0D4F6C;
+      --foam: #E8F4F8;
+      --white: #FFFFFF;
+      --gray: #8DA8B8;
+      --light: #F0F7FB;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--sky);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(10, 42, 74, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(245,166,35,0.15);
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.08em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .logo span { color: var(--sun); }
+    nav a.cta-nav {
+      background: var(--sun);
+      color: var(--sky);
+      font-weight: 500;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      padding: 0.6rem 1.4rem;
+      border-radius: 2px;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    nav a.cta-nav:hover { opacity: 0.85; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Animated wave background */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 110%, rgba(13,79,108,0.8) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 20% 80%, rgba(245,166,35,0.08) 0%, transparent 50%),
+        linear-gradient(160deg, #0A2A4A 0%, #0D3D5C 50%, #0A2A4A 100%);
+      z-index: 0;
+    }
+
+    /* Sun glow */
+    .sun-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,166,35,0.12) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      animation: pulse 6s ease-in-out infinite;
+    }
+
+    /* Grid lines */
+    .grid-lines {
+      position: absolute; inset: 0; z-index: 0;
+      background-image:
+        linear-gradient(rgba(245,166,35,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,166,35,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* Solar panel illustration */
+    .panel-visual {
+      position: absolute;
+      right: 4rem; top: 50%;
+      transform: translateY(-50%);
+      width: 420px;
+      opacity: 0.18;
+      z-index: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.8; }
+    }
+
+    .hero-content {
+      position: relative; z-index: 1;
+      max-width: 640px;
+      animation: fadeUp 1s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sun);
+      border: 1px solid rgba(245,166,35,0.3);
+      padding: 0.35rem 0.9rem;
+      border-radius: 2px;
+      margin-bottom: 1.8rem;
+      animation: fadeUp 1s 0.1s ease both;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 7vw, 6rem);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 1s 0.2s ease both;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--sun);
+      display: block;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.7;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 1s 0.3s ease both;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; align-items: center;
+      animation: fadeUp 1s 0.4s ease both;
+    }
+
+    .btn-primary {
+      background: var(--sun);
+      color: var(--sky);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      border: none; border-radius: 2px;
+      cursor: pointer; text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(245,166,35,0.35);
+    }
+
+    .btn-ghost {
+      color: rgba(255,255,255,0.6);
+      font-size: 0.9rem;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--white); border-color: var(--white); }
+
+    /* Stats bar */
+    .stats-bar {
+      position: relative; z-index: 1;
+      display: flex; gap: 3rem;
+      margin-top: 5rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      animation: fadeUp 1s 0.5s ease both;
+    }
+    .stat-item {}
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      color: var(--sun);
+      line-height: 1;
+      letter-spacing: 0.03em;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 0.3rem;
+    }
+
+    /* ── PROBLEM SECTION ── */
+    .section {
+      padding: 6rem 4rem;
+    }
+
+    .section-light {
+      background: var(--light);
+      color: var(--sky);
+    }
+
+    .section-mid {
+      background: var(--sea);
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sun);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .section-light .section-label {
+      color: var(--sea);
+    }
+
+    h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 4vw, 3.8rem);
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-light h2 { color: var(--sky); }
+
+    .section-intro {
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.8;
+      opacity: 0.75;
+      max-width: 560px;
+      margin-bottom: 3rem;
+    }
+
+    /* Loss calculator visual */
+    .loss-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+
+    .loss-panel {
+      aspect-ratio: 1.6;
+      background: rgba(245,166,35,0.15);
+      border: 1px solid rgba(245,166,35,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .loss-panel.dirty {
+      background: rgba(100,100,80,0.25);
+      border-color: rgba(100,100,80,0.3);
+    }
+
+    .loss-panel.dirty::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 4px,
+        rgba(80,70,40,0.3) 4px,
+        rgba(80,70,40,0.3) 5px
+      );
+    }
+
+    .problem-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .problem-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 4px;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .problem-card:hover {
+      border-color: rgba(245,166,35,0.3);
+      transform: translateY(-4px);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .card-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.04em;
+      color: var(--sun);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-text {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* ── HOW IT WORKS ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0;
+      margin-top: 3rem;
+      border: 1px solid rgba(10,42,74,0.15);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .step {
+      padding: 2.5rem 2rem;
+      border-right: 1px solid rgba(10,42,74,0.1);
+      position: relative;
+      background: white;
+      transition: background 0.3s;
+    }
+
+    .step:last-child { border-right: none; }
+    .step:hover { background: #f5f9fc; }
+
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      color: rgba(10,42,74,0.08);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .step-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      color: var(--sky);
+      letter-spacing: 0.04em;
+      margin-bottom: 0.6rem;
+    }
+
+    .step-text {
+      font-size: 0.85rem;
+      color: rgba(10,42,74,0.6);
+      line-height: 1.7;
+    }
+
+    /* ── WHY ROBOT ── */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2.5rem;
+      font-size: 0.9rem;
+    }
+
+    .compare-table th {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+      padding: 1rem 1.5rem;
+      text-align: left;
+      border-bottom: 2px solid rgba(255,255,255,0.1);
+    }
+
+    .compare-table th:last-child { color: var(--sun); }
+
+    .compare-table td {
+      padding: 0.9rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.7);
+    }
+
+    .compare-table td:last-child { color: var(--white); font-weight: 500; }
+    .compare-table td.yes { color: #4CAF8A; }
+    .compare-table td.no { color: rgba(255,255,255,0.3); }
+
+    /* ── SAVINGS ── */
+    .savings-box {
+      background: rgba(245,166,35,0.08);
+      border: 1px solid rgba(245,166,35,0.2);
+      border-radius: 4px;
+      padding: 3rem;
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .savings-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5rem;
+      color: var(--sun);
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+
+    .savings-desc {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* ── CONTACT ── */
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-info p {
+      font-size: 1rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 2rem;
+    }
+
+    .contact-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+    }
+
+    .contact-item span:first-child {
+      color: var(--sun);
+      font-size: 1.1rem;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .contact-form input,
+    .contact-form textarea,
+    .contact-form select {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 2px;
+      padding: 0.9rem 1.2rem;
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder { color: rgba(255,255,255,0.3); }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus,
+    .contact-form select:focus {
+      border-color: var(--sun);
+    }
+
+    .contact-form select option { background: var(--sky); }
+
+    .contact-form textarea { resize: vertical; min-height: 120px; }
+
+    .contact-form .btn-primary {
+      align-self: flex-start;
+      margin-top: 0.5rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: rgba(0,0,0,0.3);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    footer .logo { font-size: 1.1rem; }
+
+    footer p {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    footer a {
+      color: rgba(255,255,255,0.3);
+      text-decoration: none;
+      font-size: 0.78rem;
+      transition: color 0.2s;
+    }
+    footer a:hover { color: var(--sun); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .hero { padding: 7rem 1.5rem 3rem; }
+      .section { padding: 4rem 1.5rem; }
+      .stats-bar { gap: 2rem; flex-wrap: wrap; }
+      .contact-wrap { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .savings-box { grid-template-columns: 1fr; gap: 1.5rem; }
+      .panel-visual { display: none; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Adriatic <span>Solar</span> Cleaning</a>
+  <a href="#contact" class="cta-nav">Zatražite ponudu</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="grid-lines"></div>
+  <div class="sun-glow"></div>
+
+  <!-- Panel SVG illustration -->
+  <svg class="panel-visual" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="10" width="380" height="280" rx="4" fill="white" fill-opacity="0.05" stroke="white" stroke-opacity="0.2"/>
+    <line x1="10" y1="80" x2="390" y2="80" stroke="white" stroke-opacity="0.15"/>
+    <line x1="10" y1="150" x2="390" y2="150" stroke="white" stroke-opacity="0.15"/>
+    <line x1="10" y1="220" x2="390" y2="220" stroke="white" stroke-opacity="0.15"/>
+    <line x1="100" y1="10" x2="100" y2="290" stroke="white" stroke-opacity="0.15"/>
+    <line x1="190" y1="10" x2="190" y2="290" stroke="white" stroke-opacity="0.15"/>
+    <line x1="280" y1="10" x2="280" y2="290" stroke="white" stroke-opacity="0.15"/>
+    <rect x="20" y="20" width="70" height="50" rx="2" fill="#F5A623" fill-opacity="0.2"/>
+    <rect x="110" y="20" width="70" height="50" rx="2" fill="#F5A623" fill-opacity="0.2"/>
+    <rect x="200" y="20" width="70" height="50" rx="2" fill="#F5A623" fill-opacity="0.2"/>
+    <rect x="290" y="20" width="90" height="50" rx="2" fill="#F5A623" fill-opacity="0.2"/>
+    <rect x="20" y="90" width="70" height="50" rx="2" fill="#F5A623" fill-opacity="0.15"/>
+    <rect x="110" y="90" width="70" height="50" rx="2" fill="#F5A623" fill-opacity="0.15"/>
+    <rect x="200" y="90" width="70" height="50" rx="2" fill="#F5A623" fill-opacity="0.2"/>
+    <rect x="290" y="90" width="90" height="50" rx="2" fill="#F5A623" fill-opacity="0.15"/>
+    <rect x="20" y="160" width="70" height="50" rx="2" fill="#F5A623" fill-opacity="0.2"/>
+    <rect x="110" y="160" width="70" height="50" rx="2" fill="#F5A623" fill-opacity="0.2"/>
+    <rect x="200" y="160" width="70" height="50" rx="2" fill="#F5A623" fill-opacity="0.15"/>
+    <rect x="290" y="160" width="90" height="50" rx="2" fill="#F5A623" fill-opacity="0.2"/>
+    <rect x="20" y="230" width="70" height="50" rx="2" fill="#F5A623" fill-opacity="0.15"/>
+    <rect x="110" y="230" width="70" height="50" rx="2" fill="#F5A623" fill-opacity="0.2"/>
+    <rect x="200" y="230" width="70" height="50" rx="2" fill="#F5A623" fill-opacity="0.2"/>
+    <rect x="290" y="230" width="90" height="50" rx="2" fill="#F5A623" fill-opacity="0.15"/>
+    <!-- Robot -->
+    <rect x="155" y="120" width="90" height="60" rx="6" fill="white" fill-opacity="0.9"/>
+    <rect x="165" y="128" width="20" height="15" rx="2" fill="#0A2A4A"/>
+    <rect x="195" y="128" width="20" height="15" rx="2" fill="#0A2A4A"/>
+    <rect x="163" y="152" width="74" height="6" rx="3" fill="#F5A623" fill-opacity="0.7"/>
+    <line x1="200" y1="180" x2="200" y2="200" stroke="white" stroke-opacity="0.5" stroke-width="2"/>
+    <circle cx="200" cy="205" r="5" fill="#F5A623" fill-opacity="0.8"/>
+  </svg>
+
+  <div class="hero-content">
+    <span class="hero-tag">Hrvatska · Robotska tehnologija</span>
+    <h1>Čistiji paneli.<br><em>Više energije.</em></h1>
+    <p class="hero-sub">Robotsko čišćenje solarnih panela za poslovne objekte duž Jadrana. Bez radnika na krovu — brzo, sigurno, mjerljivo.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Zatražite besplatnu kalkulaciju</a>
+      <a href="#kako" class="btn-ghost">Kako funkcionira?</a>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-num">25%</div>
+      <div class="stat-label">Prosječni gubitak energije</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">1 dan</div>
+      <div class="stat-label">Čišćenje 1 MW elektrane</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Radnika na krovu</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2×</div>
+      <div class="stat-label">Godišnji servis — optimum</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section section-mid reveal" id="problem">
+  <span class="section-label">Zašto je čišćenje važno</span>
+  <h2>Prljavi paneli<br>skupo koštaju</h2>
+  <p class="section-intro">Prašina, pelud, ptičji izmet i morska sol postupno smanjuju produkciju vaše solarne instalacije — a vi možda toga niste ni svjesni.</p>
+
+  <div class="problem-cards">
+    <div class="problem-card">
+      <span class="card-icon">☀️</span>
+      <div class="card-title">Do 25% manji prinos</div>
+      <p class="card-text">Onečišćenje blokira sunčevu svjetlost i dramatično smanjuje efikasnost panela, posebno u ljetnim mjesecima kada je produkcija najveća.</p>
+    </div>
+    <div class="problem-card">
+      <span class="card-icon">💶</span>
+      <div class="card-title">Tisuće eura godišnje</div>
+      <p class="card-text">Za elektranu od 1 MW to znači i do 20.000 EUR godišnjeg gubitka u prihodu — samo zbog prljavih panela.</p>
+    </div>
+    <div class="problem-card">
+      <span class="card-icon">⚠️</span>
+      <div class="card-title">Rizik od ručnog čišćenja</div>
+      <p class="card-text">Radnici na krovu nose pravnu i sigurnosnu odgovornost za vlasnika objekta. Robotsko čišćenje eliminira taj rizik u potpunosti.</p>
+    </div>
+    <div class="problem-card">
+      <span class="card-icon">📉</span>
+      <div class="card-title">Ljeto = najveći gubitak</div>
+      <p class="card-text">Srpanj donosi 4× veći novčani gubitak od prljavih panela nego prosinac. Proljetno čišćenje se isplati višestruko.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section section-light reveal" id="kako">
+  <span class="section-label" style="color: var(--sea);">Proces</span>
+  <h2 style="color: var(--sky);">Kako funkcionira</h2>
+  <p class="section-intro" style="color: rgba(10,42,74,0.6);">Jednostavan proces bez ometanja vaše svakodnevne operacije.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Besplatna procjena</div>
+      <p class="step-text">Analiziramo vašu instalaciju, izmjerimo gubitak produkcije i pripremamo konkretnu kalkulaciju uštede.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Dogovor termina</div>
+      <p class="step-text">Dolazimo s robotom u dogovoreni termin — bez ometanja vaših operacija, bez radnika na krovu.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Robotsko čišćenje</div>
+      <p class="step-text">Autonomni robot čisti panel po panel, bez ogrebotina, bez kemikalija. 1 MW elektrana — jedan radni dan.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">Izvještaj & praćenje</div>
+      <p class="step-text">Dostavljamo izvještaj s mjerenjem produkcije prije i nakon čišćenja. Vidljivi rezultati, mjerljiva ušteda.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY ROBOT -->
+<section class="section reveal" id="zasto">
+  <span class="section-label">Prednosti</span>
+  <h2>Zašto robot,<br>a ne ručno?</h2>
+
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th>Kriterij</th>
+        <th style="color: var(--gray);">Ručno čišćenje</th>
+        <th>Adriatic Solar Robot</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Radnici na krovu</td>
+        <td class="no">Da — pravna odgovornost</td>
+        <td class="yes">✓ Nema nikoga na krovu</td>
+      </tr>
+      <tr>
+        <td>Rizik od ogrebotina</td>
+        <td class="no">Visok</td>
+        <td class="yes">✓ Minimalan — mekane četke</td>
+      </tr>
+      <tr>
+        <td>Potrošnja vode</td>
+        <td class="no">Visoka</td>
+        <td class="yes">✓ Niska ili bez vode</td>
+      </tr>
+      <tr>
+        <td>Brzina čišćenja</td>
+        <td class="no">Sporo, ovisno o ekipi</td>
+        <td class="yes">✓ 1 MW za jedan dan</td>
+      </tr>
+      <tr>
+        <td>Konzistentnost rezultata</td>
+        <td class="no">Varijabilno</td>
+        <td class="yes">✓ Uvijek jednako temeljito</td>
+      </tr>
+      <tr>
+        <td>Izvještaj o produkciji</td>
+        <td class="no">Nema</td>
+        <td class="yes">✓ Mjerni izvještaj uključen</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="savings-box">
+    <div>
+      <div class="savings-num">3×</div>
+      <div style="color: var(--sun); font-size: 1rem; margin-top: 0.3rem; letter-spacing: 0.05em; font-family: 'Bebas Neue', sans-serif;">Povrat investicije</div>
+    </div>
+    <div class="savings-desc">
+      Za elektranu od 1 MW, dva godišnja čišćenja koštaju <strong style="color:white">8.000 – 12.000 EUR</strong>. Gubitak od prljavih panela iznosi i do <strong style="color: var(--sun);">25.000 EUR godišnje</strong>. Čišćenje se isplati višestruko — već u prvoj godini.
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section section-mid reveal" id="contact">
+  <div class="contact-wrap">
+    <div class="contact-info">
+      <span class="section-label">Kontakt</span>
+      <h2>Zatražite besplatnu kalkulaciju</h2>
+      <p>Pošaljite nam podatke o vašoj instalaciji i pripremit ćemo konkretnu kalkulaciju koliko energije (i novca) trenutno gubite — bez ikakve obveze.</p>
+      <div class="contact-detail">
+        <div class="contact-item">
+          <span>✉</span>
+          <span>info@adriaticsolarcleaning.com</span>
+        </div>
+        <div class="contact-item">
+          <span>📍</span>
+          <span>Hrvatska — cijela obala i unutrašnjost</span>
+        </div>
+        <div class="contact-item">
+          <span>⏱</span>
+          <span>Odgovaramo u roku 24h</span>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <input type="text" placeholder="Ime i prezime *" required />
+        <input type="text" placeholder="Naziv tvrtke *" required />
+      </div>
+      <div class="form-row">
+        <input type="email" placeholder="E-mail adresa *" required />
+        <input type="tel" placeholder="Telefon" />
+      </div>
+      <select>
+        <option value="" disabled selected>Veličina instalacije</option>
+        <option>Do 100 kW</option>
+        <option>100 kW – 500 kW</option>
+        <option>500 kW – 1 MW</option>
+        <option>Više od 1 MW</option>
+        <option>Ne znam točno</option>
+      </select>
+      <textarea placeholder="Kratka napomena (lokacija objekta, učestalost čišćenja, pitanja...)"></textarea>
+      <button type="submit" class="btn-primary">Pošalji upit →</button>
+      <p id="form-msg" style="display:none; color: #4CAF8A; font-size:0.85rem; margin-top:0.5rem;">✓ Hvala! Javit ćemo se u roku 24h.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="logo">Adriatic <span>Solar</span> Cleaning</a>
+  <p>© 2026 Adriatic Solar Cleaning · adriaticsolarcleaning.com</p>
+  <a href="mailto:info@adriaticsolarcleaning.com">info@adriaticsolarcleaning.com</a>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const msg = document.getElementById('form-msg');
+    msg.style.display = 'block';
+    e.target.reset();
+    setTimeout(() => { msg.style.display = 'none'; }, 5000);
+  }
+</script>
+</body>
+</html>
